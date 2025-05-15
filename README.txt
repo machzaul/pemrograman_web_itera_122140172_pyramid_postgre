@@ -1,43 +1,148 @@
-pyramid_matakuliah
-==================
+#  Aplikasi Manajemen Matakuliah – Pyramid RESTful API
 
-Getting Started
----------------
+Aplikasi ini dibuat untuk mengelola data matakuliah menggunakan **Pyramid Framework**, **SQLAlchemy**, dan **PostgreSQL**, dengan dukungan penuh untuk operasi **CRUD RESTful API**.
 
-- Change directory into your newly created project.
+---
 
-    cd pyramid_matakuliah
+## 💠 Fitur Utama
 
-- Create a Python virtual environment.
+* ✅ Tambah matakuliah (POST)
+* ✅ Ambil semua matakuliah (GET)
+* ✅ Ambil matakuliah berdasarkan ID (GET)
+* ✅ Update matakuliah (PUT)
+* ✅ Hapus matakuliah (DELETE)
 
-    python3 -m venv env
+---
 
-- Upgrade packaging tools.
+## ⚙️ Konfigurasi Database
 
-    env/bin/pip install --upgrade pip setuptools
+Pastikan file `development.ini` memiliki konfigurasi berikut:
 
-- Install the project in editable mode with its testing requirements.
+```ini
+sqlalchemy.url = postgresql://pyramid_user:pyramid_pass@localhost:5432/pyramid_matakuliah
+```
 
-    env/bin/pip install -e ".[testing]"
+---
 
-- Initialize and upgrade the database using Alembic.
+## ▶️ Cara Menjalankan Aplikasi
 
-    - Generate your first revision.
+1. Aktifkan virtual environment:
 
-        env/bin/alembic -c development.ini revision --autogenerate -m "init"
+```bash
+.\venv\Scripts\activate
+```
 
-    - Upgrade to that revision.
+2. Jalankan migrasi database:
 
-        env/bin/alembic -c development.ini upgrade head
+```bash
+alembic -c development.ini upgrade head
+```
 
-- Load default data into the database using a script.
+3. Jalankan server:
 
-    env/bin/initialize_pyramid_matakuliah_db development.ini
+```bash
+pserve development.ini --reload
+```
 
-- Run your project's tests.
+Akses API di: [http://localhost:6543/api/matakuliah](http://localhost:6543/api/matakuliah)
 
-    env/bin/pytest
+---
 
-- Run your project.
+## 🔍 Testing API via Postman
 
-    env/bin/pserve development.ini
+### 🔹 GET semua matakuliah
+
+```
+GET http://localhost:6543/api/matakuliah
+```
+
+---
+
+### 🔹 POST tambah matakuliah
+
+```
+POST http://localhost:6543/api/matakuliah
+```
+
+Body (JSON):
+
+```json
+{
+  "kode_mk": "IF101",
+  "nama_mk": "Pemrograman Web",
+  "sks": 3,
+  "semester": 5
+}
+```
+
+📸 Screenshot:
+
+![POST](post.png)
+
+---
+
+### 🔹 GET matakuliah berdasarkan ID
+
+```
+GET http://localhost:6543/api/matakuliah/1
+```
+
+📸 Screenshot:
+
+![GET by ID](getbyid.png)
+
+---
+
+### 🔹 PUT update matakuliah
+
+```
+PUT http://localhost:6543/api/matakuliah/1
+```
+
+Body (JSON):
+
+```json
+{
+  "nama_mk": "Pemrograman Web Lanjut",
+  "sks": 4
+}
+```
+
+### 🔹 DELETE matakuliah
+
+```
+DELETE http://localhost:6543/api/matakuliah/1
+```
+
+📸 Screenshot:
+
+![DELETE](delete.png)
+
+---
+
+## 📁 Struktur Folder
+
+```
+pyramid_matakuliah/
+├── alembic/
+│   └── versions/
+├── pyramid_matakuliah/
+│   ├── models/
+│   ├── views/
+│   ├── routes.py
+│   └── __init__.py
+├── development.ini
+├── README.md
+```
+
+---
+
+## ✅ Catatan
+
+* Pastikan PostgreSQL berjalan
+* Jalankan migrasi sebelum menjalankan server
+* Gunakan **Postman Desktop Agent** untuk mengakses `localhost`
+
+---
+
+Happy Coding! ✨
